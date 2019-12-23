@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zks.dao.BeanSingerMapper">
+  <resultMap id="BaseResultMap" type="com.zks.model.BeanSinger">
+    <id column="singer_id" jdbcType="VARCHAR" property="singerId" />
+    <result column="singername" jdbcType="VARCHAR" property="singername" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="birthaddress" jdbcType="VARCHAR" property="birthaddress" />
+    <result column="constellation" jdbcType="VARCHAR" property="constellation" />
+    <result column="singles" jdbcType="INTEGER" property="singles" />
+    <result column="album" jdbcType="INTEGER" property="album" />
+    <result column="mv" jdbcType="INTEGER" property="mv" />
+    <result column="fens" jdbcType="INTEGER" property="fens" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    singer_id, singername, gender, birthaddress, constellation, singles, album, mv, fens
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from singer
+    where singer_id = #{singerId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectzjgq" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select singles,album,mv
+    from singer
+    where singername = #{singername,jdbcType=VARCHAR}
+  </select>
+  <select id="selectxinxi" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from singer
+    where singername = #{singername,jdbcType=VARCHAR}
+  </select>
+  <select id="selectbyfens" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from singer
+    ORDER  BY  fens DESC
+  </select>
+  <select id="selectbysingles" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from singer
+    ORDER  BY  singles DESC
+  </select>
+  <select id="selectbyablum" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select *
+   from singer
+   ORDER  BY  album DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from singer
+    where singer_id = #{singerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zks.model.BeanSinger">
+    insert into singer (singer_id, singername, gender,
+      birthaddress, constellation, singles,
+      album, mv, fens)
+    values (#{singerId,jdbcType=VARCHAR}, #{singername,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+      #{birthaddress,jdbcType=VARCHAR}, #{constellation,jdbcType=VARCHAR}, #{singles,jdbcType=INTEGER},
+      #{album,jdbcType=INTEGER}, #{mv,jdbcType=INTEGER}, #{fens,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zks.model.BeanSinger">
+    insert into singer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="singerId != null">
+        singer_id,
+      </if>
+      <if test="singername != null">
+        singername,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthaddress != null">
+        birthaddress,
+      </if>
+      <if test="constellation != null">
+        constellation,
+      </if>
+      <if test="singles != null">
+        singles,
+      </if>
+      <if test="album != null">
+        album,
+      </if>
+      <if test="mv != null">
+        mv,
+      </if>
+      <if test="fens != null">
+        fens,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="singerId != null">
+        #{singerId,jdbcType=VARCHAR},
+      </if>
+      <if test="singername != null">
+        #{singername,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthaddress != null">
+        #{birthaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="constellation != null">
+        #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="singles != null">
+        #{singles,jdbcType=INTEGER},
+      </if>
+      <if test="album != null">
+        #{album,jdbcType=INTEGER},
+      </if>
+      <if test="mv != null">
+        #{mv,jdbcType=INTEGER},
+      </if>
+      <if test="fens != null">
+        #{fens,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zks.model.BeanSinger">
+    update singer
+    <set>
+      <if test="singername != null">
+        singername = #{singername,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthaddress != null">
+        birthaddress = #{birthaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="constellation != null">
+        constellation = #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="singles != null">
+        singles = #{singles,jdbcType=INTEGER},
+      </if>
+      <if test="album != null">
+        album = #{album,jdbcType=INTEGER},
+      </if>
+      <if test="mv != null">
+        mv = #{mv,jdbcType=INTEGER},
+      </if>
+      <if test="fens != null">
+        fens = #{fens,jdbcType=INTEGER},
+      </if>
+    </set>
+    where singer_id = #{singerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zks.model.BeanSinger">
+    update singer
+    set singername = #{singername,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      birthaddress = #{birthaddress,jdbcType=VARCHAR},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      singles = #{singles,jdbcType=INTEGER},
+      album = #{album,jdbcType=INTEGER},
+      mv = #{mv,jdbcType=INTEGER},
+      fens = #{fens,jdbcType=INTEGER}
+    where singer_id = #{singerId,jdbcType=VARCHAR}
+  </update>
+</mapper>

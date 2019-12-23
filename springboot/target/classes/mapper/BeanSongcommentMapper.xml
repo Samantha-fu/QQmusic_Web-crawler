@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zks.dao.BeanSongcommentMapper">
+  <resultMap id="BaseResultMap" type="com.zks.model.BeanSongcomment">
+    <id column="song_comment_id" jdbcType="VARCHAR" property="songCommentId" />
+    <result column="song_id" jdbcType="VARCHAR" property="songId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+    <result column="comment_sum" jdbcType="INTEGER" property="commentSum" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zks.model.BeanSongcomment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    song_comment_id, song_id, user_id, comment_time, like_count, comment_sum
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from song_comment
+    where song_comment_id = #{songCommentId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectredu" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+ select *
+ from song_comment a,song b
+ where a.song_id =b.song_id and song_name = #{songName,jdbcType=VARCHAR}
+ ORDER BY comment_sum desc
+ </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from song_comment
+    where song_comment_id = #{songCommentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zks.model.BeanSongcomment">
+    insert into song_comment (song_comment_id, song_id, user_id,
+      comment_time, like_count, comment_sum,
+      comment_content)
+    values (#{songCommentId,jdbcType=VARCHAR}, #{songId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+      #{commentTime,jdbcType=TIMESTAMP}, #{likeCount,jdbcType=INTEGER}, #{commentSum,jdbcType=INTEGER},
+      #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zks.model.BeanSongcomment">
+    insert into song_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="songCommentId != null">
+        song_comment_id,
+      </if>
+      <if test="songId != null">
+        song_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="commentTime != null">
+        comment_time,
+      </if>
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="commentSum != null">
+        comment_sum,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="songCommentId != null">
+        #{songCommentId,jdbcType=VARCHAR},
+      </if>
+      <if test="songId != null">
+        #{songId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null">
+        #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentSum != null">
+        #{commentSum,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zks.model.BeanSongcomment">
+    update song_comment
+    <set>
+      <if test="songId != null">
+        song_id = #{songId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null">
+        comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentSum != null">
+        comment_sum = #{commentSum,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where song_comment_id = #{songCommentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zks.model.BeanSongcomment">
+    update song_comment
+    set song_id = #{songId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      comment_sum = #{commentSum,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where song_comment_id = #{songCommentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zks.model.BeanSongcomment">
+    update song_comment
+    set song_id = #{songId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      comment_sum = #{commentSum,jdbcType=INTEGER}
+    where song_comment_id = #{songCommentId,jdbcType=VARCHAR}
+  </update>
+</mapper>

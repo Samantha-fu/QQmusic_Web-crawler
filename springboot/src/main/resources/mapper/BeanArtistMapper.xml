@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zks.dao.BeanArtistMapper">
+  <resultMap id="BaseResultMap" type="com.zks.model.BeanArtist">
+    <id column="artist_id" jdbcType="VARCHAR" property="artistId" />
+    <result column="artist_name" jdbcType="VARCHAR" property="artistName" />
+    <result column="album_size" jdbcType="INTEGER" property="albumSize" />
+    <result column="music_size" jdbcType="INTEGER" property="musicSize" />
+    <result column="artist_pic_url" jdbcType="VARCHAR" property="artistPicUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    artist_id, artist_name, album_size, music_size, artist_pic_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from artist
+    where artist_id = #{artistId,jdbcType=VARCHAR}
+  </select>
+  <select id="selecttupian" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select artist_pic_url
+  from artist
+  where artist_name = #{artistName,jdbcType=VARCHAR}
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from artist
+    where artist_id = #{artistId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zks.model.BeanArtist">
+    insert into artist (artist_id, artist_name, album_size,
+      music_size, artist_pic_url)
+    values (#{artistId,jdbcType=VARCHAR}, #{artistName,jdbcType=VARCHAR}, #{albumSize,jdbcType=INTEGER},
+      #{musicSize,jdbcType=INTEGER}, #{artistPicUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zks.model.BeanArtist">
+    insert into artist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="artistId != null">
+        artist_id,
+      </if>
+      <if test="artistName != null">
+        artist_name,
+      </if>
+      <if test="albumSize != null">
+        album_size,
+      </if>
+      <if test="musicSize != null">
+        music_size,
+      </if>
+      <if test="artistPicUrl != null">
+        artist_pic_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="artistId != null">
+        #{artistId,jdbcType=VARCHAR},
+      </if>
+      <if test="artistName != null">
+        #{artistName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumSize != null">
+        #{albumSize,jdbcType=INTEGER},
+      </if>
+      <if test="musicSize != null">
+        #{musicSize,jdbcType=INTEGER},
+      </if>
+      <if test="artistPicUrl != null">
+        #{artistPicUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zks.model.BeanArtist">
+    update artist
+    <set>
+      <if test="artistName != null">
+        artist_name = #{artistName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumSize != null">
+        album_size = #{albumSize,jdbcType=INTEGER},
+      </if>
+      <if test="musicSize != null">
+        music_size = #{musicSize,jdbcType=INTEGER},
+      </if>
+      <if test="artistPicUrl != null">
+        artist_pic_url = #{artistPicUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where artist_id = #{artistId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zks.model.BeanArtist">
+    update artist
+    set artist_name = #{artistName,jdbcType=VARCHAR},
+      album_size = #{albumSize,jdbcType=INTEGER},
+      music_size = #{musicSize,jdbcType=INTEGER},
+      artist_pic_url = #{artistPicUrl,jdbcType=VARCHAR}
+    where artist_id = #{artistId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

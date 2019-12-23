@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zks.dao.BeanAlbumMapper">
+  <resultMap id="BaseResultMap" type="com.zks.model.BeanAlbum">
+    <id column="album_id" jdbcType="VARCHAR" property="albumId" />
+    <result column="artist_id" jdbcType="VARCHAR" property="artistId" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="album_name" jdbcType="VARCHAR" property="albumName" />
+    <result column="album_pic_url" jdbcType="VARCHAR" property="albumPicUrl" />
+    <result column="sub_count" jdbcType="INTEGER" property="subCount" />
+    <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+    <result column="share_count" jdbcType="INTEGER" property="shareCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zks.model.BeanAlbum">
+    <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    album_id, artist_id, publish_time, album_name, album_pic_url, sub_count, comment_count, 
+    share_count
+  </sql>
+  <sql id="Blob_Column_List">
+    introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from album
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAlbum" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select album_name,artist_name,publish_time,introduction
+    from album a ,artist b
+    where a.artist_id=b.artist_id and album_name =#{albumName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from album
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zks.model.BeanAlbum">
+    insert into album (album_id, artist_id, publish_time, 
+      album_name, album_pic_url, sub_count, 
+      comment_count, share_count, introduction
+      )
+    values (#{albumId,jdbcType=VARCHAR}, #{artistId,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{albumName,jdbcType=VARCHAR}, #{albumPicUrl,jdbcType=VARCHAR}, #{subCount,jdbcType=INTEGER}, 
+      #{commentCount,jdbcType=INTEGER}, #{shareCount,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zks.model.BeanAlbum">
+    insert into album
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
+        album_id,
+      </if>
+      <if test="artistId != null">
+        artist_id,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="albumName != null">
+        album_name,
+      </if>
+      <if test="albumPicUrl != null">
+        album_pic_url,
+      </if>
+      <if test="subCount != null">
+        sub_count,
+      </if>
+      <if test="commentCount != null">
+        comment_count,
+      </if>
+      <if test="shareCount != null">
+        share_count,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="albumId != null">
+        #{albumId,jdbcType=VARCHAR},
+      </if>
+      <if test="artistId != null">
+        #{artistId,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="albumName != null">
+        #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumPicUrl != null">
+        #{albumPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subCount != null">
+        #{subCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null">
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="shareCount != null">
+        #{shareCount,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zks.model.BeanAlbum">
+    update album
+    <set>
+      <if test="artistId != null">
+        artist_id = #{artistId,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="albumName != null">
+        album_name = #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumPicUrl != null">
+        album_pic_url = #{albumPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subCount != null">
+        sub_count = #{subCount,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null">
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="shareCount != null">
+        share_count = #{shareCount,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zks.model.BeanAlbum">
+    update album
+    set artist_id = #{artistId,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      album_name = #{albumName,jdbcType=VARCHAR},
+      album_pic_url = #{albumPicUrl,jdbcType=VARCHAR},
+      sub_count = #{subCount,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      share_count = #{shareCount,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zks.model.BeanAlbum">
+    update album
+    set artist_id = #{artistId,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      album_name = #{albumName,jdbcType=VARCHAR},
+      album_pic_url = #{albumPicUrl,jdbcType=VARCHAR},
+      sub_count = #{subCount,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      share_count = #{shareCount,jdbcType=INTEGER}
+    where album_id = #{albumId,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

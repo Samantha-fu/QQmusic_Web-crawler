@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zks.dao.BeanLyricMapper">
+  <resultMap id="BaseResultMap" type="com.zks.model.BeanLyric">
+    <id column="lyric_id" jdbcType="INTEGER" property="lyricId" />
+    <result column="song_name" jdbcType="VARCHAR" property="songName" />
+    <result column="artist_name" jdbcType="VARCHAR" property="artistName" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zks.model.BeanLyric">
+    <result column="lyric" jdbcType="LONGVARCHAR" property="lyric" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lyric_id, song_name, artist_name
+  </sql>
+  <sql id="Blob_Column_List">
+    lyric
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lyric
+    where lyric_id = #{lyricId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByname" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select lyric
+    from lyric
+    where song_name = #{songName,jdbcType=VARCHAR} and artist_name = #{artistName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lyric
+    where lyric_id = #{lyricId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zks.model.BeanLyric">
+    insert into lyric (lyric_id, song_name, artist_name, 
+      lyric)
+    values (#{lyricId,jdbcType=INTEGER}, #{songName,jdbcType=VARCHAR}, #{artistName,jdbcType=VARCHAR}, 
+      #{lyric,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zks.model.BeanLyric">
+    insert into lyric
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lyricId != null">
+        lyric_id,
+      </if>
+      <if test="songName != null">
+        song_name,
+      </if>
+      <if test="artistName != null">
+        artist_name,
+      </if>
+      <if test="lyric != null">
+        lyric,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lyricId != null">
+        #{lyricId,jdbcType=INTEGER},
+      </if>
+      <if test="songName != null">
+        #{songName,jdbcType=VARCHAR},
+      </if>
+      <if test="artistName != null">
+        #{artistName,jdbcType=VARCHAR},
+      </if>
+      <if test="lyric != null">
+        #{lyric,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zks.model.BeanLyric">
+    update lyric
+    <set>
+      <if test="songName != null">
+        song_name = #{songName,jdbcType=VARCHAR},
+      </if>
+      <if test="artistName != null">
+        artist_name = #{artistName,jdbcType=VARCHAR},
+      </if>
+      <if test="lyric != null">
+        lyric = #{lyric,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where lyric_id = #{lyricId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zks.model.BeanLyric">
+    update lyric
+    set song_name = #{songName,jdbcType=VARCHAR},
+      artist_name = #{artistName,jdbcType=VARCHAR},
+      lyric = #{lyric,jdbcType=LONGVARCHAR}
+    where lyric_id = #{lyricId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zks.model.BeanLyric">
+    update lyric
+    set song_name = #{songName,jdbcType=VARCHAR},
+      artist_name = #{artistName,jdbcType=VARCHAR}
+    where lyric_id = #{lyricId,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>
